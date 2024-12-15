@@ -9,33 +9,58 @@
         theme: {
           extend: {
             colors: {
-              dark: {
-                bg: "#0D1117", // Background
-                text: "#E5E5E5", // Teks utama
+              warm: {
+                bg: "#1C1B17", // Background utama
+                text: "#F5F3F0", // Teks utama
               },
-              cold: {
-                primary: "#3B82F6", // Biru (Primary)
-                accent: "#38BDF8", // Cyan (Accent)
+              accent: {
+                primary: "#E63946", // Merah (Aksi penting)
+                secondary: "#FFC857", // Emas (Sorotan/Tombol info)
+                success: "#83C5BE", // Hijau mint (Indikator berhasil)
+              },
+              neutral: {
+                odd: "#2A2925", // Baris ganjil tabel
+                even: "#1C1B17", // Baris genap tabel
+                border: "#FFC857", // Warna border
+              },
+              muted: {
+                bg: "#4E4B41", // Background tombol nonaktif
+                text: "#B8B5AD", // Teks nonaktif
               },
             },
           },
         },
       };
     </script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
+    />
   </head>
 
-  <body class="bg-dark-bg text-dark-text">
+  <body class="bg-warm-bg text-warm-text">
     <header class="mt-8">
-      <h1 class="font-bold text-4xl text-center">Welcome to the Proxy List</h1>
-      <h5 class="text-center text-2xl">BlueHat358</h5>
+      <h1
+        class="font-bold md:text-4xl text-2xl text-center text-accent-secondary"
+      >
+        Welcome to the Proxy List
+      </h1>
+      <h5 class="text-center md:text-2xl text-xl mt-3 text-accent-secondary/80">
+        BlueHat358
+      </h5>
     </header>
     <main class="w-full">
-      <div class="bg-dark-bg text-dark-text min-h-screen p-6">
-        <div class="flex justify-between w-full mt-20">
-          <div class="filters flex justify-between w-full">
+      <div class="bg-warm-bg text-warm-text min-h-screen p-6">
+        <div class="flex md:justify-between w-full mt-20">
+          <div
+            class="filters flex justify-between md:w-full flex-col-reverse gap-y-5 md:flex-row md:items-center md:gap-0"
+          >
             <div>
-              <span class="filter-label text-dark-text">Item Page:</span>
-              <select id="items-per-page" class="bg-dark-bg">
+              <span class="filter-label text-warm-text">Item Page:</span>
+              <select
+                id="items-per-page"
+                class="bg-neutral-odd border-neutral-border text-warm-text rounded-md px-2 py-1"
+              >
                 <option value="10">10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
@@ -43,75 +68,82 @@
               </select>
             </div>
             <div>
-              <span class="filter-label text-dark-text">Search:</span>
+              <span class="filter-label text-warm-text">Search:</span>
               <input
                 type="text"
                 id="search-bar"
                 placeholder="Cari Isp, Country Code"
-                class="bg-dark-bg border-cyan-200 border-2 rounded-md px-2 py-1"
+                class="bg-neutral-odd border-neutral-border border-2 rounded-md px-2 py-1 text-warm-text"
               />
             </div>
           </div>
         </div>
-        <table class="table-auto border-collapse w-full text-center mt-8">
-          <thead>
-            <tr>
-              <th
-                class="px-4 py-2 border-b text-cold-accent font-semibold w-12"
-              >
-                No
-              </th>
-              <th
-                class="px-4 py-2 border-b text-cold-accent font-semibold w-60"
-              >
-                IP:Port
-              </th>
-              <th
-                class="px-4 py-2 border-b text-cold-accent font-semibold w-60"
-              >
-                ISP | Country
-              </th>
-              <th
-                class="px-4 py-2 border-b text-cold-accent font-semibold w-40"
-              >
-                Wildcard
-              </th>
-              <th
-                class="px-4 py-2 border-b text-cold-accent font-semibold w-60"
-              >
-                Vless
-              </th>
-              <th
-                class="px-4 py-2 border-b text-cold-accent font-semibold w-50"
-              >
-                Trojan
-              </th>
-              <th
-                class="px-4 py-2 border-b text-cold-accent font-semibold w-50"
-              >
-                Shadowsock
-              </th>
-              <th
-                class="px-4 py-2 border-b text-cold-accent font-semibold w-40"
-              >
-                Active
-              </th>
-            </tr>
-          </thead>
-          <tbody id="proxy-list"></tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="table-auto border-collapse w-full text-center mt-8">
+            <thead>
+              <tr>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-12"
+                >
+                  No
+                </th>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60"
+                >
+                  IP:Port
+                </th>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60"
+                >
+                  ISP | Country
+                </th>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40"
+                >
+                  Wildcard
+                </th>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60"
+                >
+                  Vless
+                </th>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-50"
+                >
+                  Trojan
+                </th>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-50"
+                >
+                  Shadowsock
+                </th>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40"
+                >
+                  Active
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              id="proxy-list"
+              class="odd:bg-neutral-odd even:bg-neutral-even"
+            ></tbody>
+          </table>
+        </div>
       </div>
       <div
-        class="total-proxy w-full flex justify-center text-md mt-10"
+        class="total-proxy w-full flex justify-center text-md mt-10 text-warm-text"
         id="total-proxy"
       ></div>
       <div
-        class="pagination w-full flex justify-center gap-3 mt-6 mb-32 text-cold-primary text-xl"
+        class="pagination w-full flex justify-center gap-3 mt-6 mb-32 text-accent-primary text-xl"
         id="pagination"
       ></div>
     </main>
   </body>
-  <footer class="footer flex justify-center">
+  <footer
+    class="footer flex justify-center p-3 text-xs md:text-sm text-center bg-neutral-odd text-warm-text"
+  >
     <h2>
       <p>
         &copy; 2024 BlueHat358 | Proudly built with Open Source Technologies.
@@ -154,124 +186,126 @@
         const nomor = proxies.indexOf(proxy) + 1;
         const row = document.createElement("tr");
         row.className =
-          "odd:bg-dark-bg even:bg-cold-primary/10 hover:bg-cold-primary/40";
+          "odd:bg-neutral-odd even:bg-neutral-even hover:bg-accent/50";
         row.innerHTML = `
-            <!-- No -->
-            <td class="px-4 py-2 border-b text-sm align-middle">${nomor}</td>
-            <!-- Proxy IP -->
-            <td class="px-4 py-2 border-b text-sm align-middle">${ip}:${port}</td>
-            <!-- ISP | Country -->
-            <td class="px-4 py-2 border-b text-sm align-middle">
-              <div class="flex items-center gap-1">
-                <span>${isp}</span> | <span>${country}</span
-                ><span
-                  class="flag-icon flag-icon-${country.toLowerCase()}"
-                ></span>
-              </div>
-            </td>
-            <!-- Wildcard -->
-            <td class="px-4 py-2 border-b text-sm align-middle">
-              <select
-                class="w-full px-2 py-1 border rounded bg-dark-bg text-dark-text focus:ring focus:ring-cold-primary service-selector"
+          <!-- No -->
+          <td class="px-4 py-2 border-b text-sm align-middle">${nomor}</td>
+          <!-- Proxy IP -->
+          <td class="px-4 py-2 border-b text-sm align-middle">${ip}:${port}</td>
+          <!-- ISP | Country -->
+          <td class="px-4 py-2 border-b text-sm align-middle">
+            <div class="flex items-center gap-1 justify-center">
+              <span>${isp}</span> | <span>${country}</span>
+              <span class="fi fi-${country.toLowerCase()}"></span>
+            </div>
+          </td>
+          <!-- Wildcard -->
+          <td class="px-4 py-2 border-b text-sm align-middle">
+            <select
+              class="w-full px-2 py-1 border rounded bg-warm-bg text-warm-text focus:ring focus:ring-warm-primary service-selector"
+            >
+              <option value="">No Wildcard</option>
+              <option value="ava.game.naver.com">ava.game.naver.com</option>
+              <option value="graph.instagram.com">graph.instagram.com</option>
+              <option value="quiz.int.vidio.com">quiz.int.vidio.com</option>
+              <option value="live.iflix.com.com">live.iflix.com</option>
+              <option value="support.zoom.us">support.zoom.us</option>
+              <option value="blog.webex.com">blog.webex.com</option>
+              <option value="investors.spotify.com">
+                investors.spotify.com
+              </option>
+              <option value="cache.netflix.com">cache.netflix.com</option>
+              <option value="zaintest.vuclip.com">zaintest.vuclip.com</option>
+              <option value="io.ruangguru.com">io.ruangguru.com</option>
+              <option value="api.midtrans.com">api.midtrans.com</option>
+            </select>
+          </td>
+          <!-- Vless -->
+          <td class="px-4 py-2 border-b text-sm align-middle">
+            <div class="flex gap-2 mb-3">
+              <button
+                class="copy-vless bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
-                <option value="">No Wildcard</option>
-                <option value="ava.game.naver.com">ava.game.naver.com</option>
-                <option value="graph.instagram.com">graph.instagram.com</option>
-                <option value="quiz.int.vidio.com">quiz.int.vidio.com</option>
-                <option value="live.iflix.com.com">live.iflix.com</option>
-                <option value="support.zoom.us">support.zoom.us</option>
-                <option value="blog.webex.com">blog.webex.com</option>
-                <option value="investors.spotify.com">
-                  investors.spotify.com
-                </option>
-                <option value="cache.netflix.com">cache.netflix.com</option>
-                <option value="zaintest.vuclip.com">zaintest.vuclip.com</option>
-                <option value="io.ruangguru.com">io.ruangguru.com</option>
-                <option value="api.midtrans.com">api.midtrans.com</option>
-              </select>
-            </td>
-            <!-- Vless -->
-            <td class="px-4 py-2 border-b text-sm align-middle">
-              <div class="flex gap-2 mb-3">
+                Vless 443
+              </button>
+              <button
+                class="copy-vless1 bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+              >
+                Vless 80
+              </button>
+            </div>
+            <div class="flex gap-2">
+              <button
+                class="copy-vless-clash bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+              >
+                CLASH 443
+              </button>
+              <button
+                class="copy-vless-clash1 bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+              >
+                CLASH 80
+              </button>
+            </div>
+          </td>
+          <!-- Trojan -->
+          <td class="px-4 py-2 border-b text-sm align-middle">
+            <div class="flex gap-2 mb-3">
+              <button
+                class="copy-trojan bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+              >
+                Trojan 443
+              </button>
+            </div>
+            <div class="flex gap-2">
+              <button
+                class="copy-trojan-clash bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+              >
+                CLASH 443
+              </button>
+            </div>
+          </td>
+          <!-- Shadowsock -->
+          <td class="px-4 py-2 border-b text-sm align-middle">
+            <div class="flex gap-2 mb-3">
+              <button
+                class="copy-shadowsock bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+              >
+                Shadowsock 443
+              </button>
+            </div>
+            <div class="flex gap-2">
+              <button
+                class="copy-shadowsock-clash bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+              >
+                CLASH 443
+              </button>
+            </div>
+          </td>
+          <!-- Active -->
+          <td class="px-4 py-2 border-b text-sm align-middle">
+            <div class="flex justify-center">
+              <div>
                 <button
-                  class="copy-vless bg-cold-primary hover:bg-cold-accent text-dark-text px-2 py-1 rounded text-xs w-full"
+                  id="btn_active"
+                  class="check_active bg-muted-bg hover:bg-muted-bg/40 text-accent-success px-2 py-1 rounded text-xs font-bold"
+                  onclick="isProxyActive('${ip}', '${port}', this, ${nomor})"
                 >
-                  Vless 443
+                  Check
                 </button>
-                <button
-                  class="copy-vless1 bg-cold-primary hover:bg-cold-accent text-dark-text px-2 py-1 rounded text-xs w-full"
+                <div
+                  class="flex items-center mt-2 gap-1 hidden"
+                  lat-wrap-index="${nomor}"
                 >
-                  Vless 80
-                </button>
-              </div>
-              <div class="flex gap-2">
-                <button
-                  class="copy-vless-clash bg-cold-primary hover:bg-cold-accent text-dark-text px-2 py-1 rounded text-xs w-full"
-                >
-                  CLASH 443
-                </button>
-                <button
-                  class="copy-vless-clash1 bg-cold-primary hover:bg-cold-accent text-dark-text px-2 py-1 rounded text-xs w-full"
-                >
-                  CLASH 80
-                </button>
-              </div>
-            </td>
-            <!-- Trojan -->
-            <td class="px-4 py-2 border-b text-sm align-middle">
-              <div class="flex gap-2 mb-3">
-                <button
-                  class="copy-trojan bg-cold-primary hover:bg-cold-accent text-dark-text px-2 py-1 rounded text-xs w-full"
-                >
-                  Trojan 443
-                </button>
-              </div>
-              <div class="flex gap-2">
-                <button
-                  class="copy-trojan-clash bg-cold-primary hover:bg-cold-accent text-dark-text px-2 py-1 rounded text-xs w-full"
-                >
-                  CLASH 443
-                </button>
-              </div>
-            </td>
-            <!-- Shadowsock -->
-            <td class="px-4 py-2 border-b text-sm align-middle">
-              <div class="flex gap-2 mb-3">
-                <button
-                  class="copy-shadowsock bg-cold-primary hover:bg-cold-accent text-dark-text px-2 py-1 rounded text-xs w-full"
-                >
-                  Shadowsock 443
-                </button>
-              </div>
-              <div class="flex gap-2">
-                <button
-                  class="copy-shadowsock-clash bg-cold-primary hover:bg-cold-accent text-dark-text px-2 py-1 rounded text-xs w-full"
-                >
-                  CLASH 443
-                </button>
-              </div>
-            </td>
-            <!-- Active -->
-            <td class="px-4 py-2 border-b text-sm align-middle">
-              <div class="flex justify-center">
-                <div>
-                  <button
-                    id="btn_active"
-                    class="check_active bg-cold-primary hover:bg-cold-accent text-dark-bg px-2 py-1 rounded text-xs"
-                    onclick="isProxyActive('${ip}', '${port}', this, ${nomor})"
-                  >
-                    Check
-                  </button>
-                  <div
-                    class="flex items-center mt-2 gap-1 hidden" lat-wrap-index = "${nomor}"
-                  >
-                    <span class="bg-yellow-500 h-3 w-3 rounded-full"></span>
-                    <span class="text-xs text-dark-text opacity-70 latency-cell"></span>
-                  </div>
+                  <span class="bg-yellow-500 h-3 w-3 rounded-full"></span>
+                  <span
+                    class="text-xs text-warm-text opacity-70 latency-cell"
+                  ></span>
                 </div>
               </div>
-            </td>
-          `;
+            </div>
+          </td>
+        `;
+
         proxyList.appendChild(row);
 
         // Event listeners for copy buttons
@@ -507,13 +541,13 @@
     // Function to render pagination
     function renderPagination(proxies, pagination) {
       const totalPages = Math.ceil(proxies.length / proxyPerPage);
-      const maxButtons = 8;
+      const maxButtons = 4;
       pagination.innerHTML = "";
 
       if (currentPage > 1) {
         const firstButton = document.createElement("button");
         firstButton.className =
-          "border-cold-primary hover:bg-cold-primary/40 text-dark-text border-2 rounded-md py-2 px-4 mt-4";
+          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
         firstButton.textContent = "<< First";
         firstButton.addEventListener("click", () =>
           updatePage(1, proxies, pagination)
@@ -522,7 +556,7 @@
 
         const prevButton = document.createElement("button");
         prevButton.className =
-          "border-cold-primary hover:bg-cold-primary/40 text-dark-text border-2 rounded-md py-2 px-4 mt-4";
+          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
         prevButton.textContent = "Previous";
         prevButton.addEventListener("click", () =>
           updatePage(currentPage - 1, proxies, pagination)
@@ -536,13 +570,13 @@
       for (let i = startPage; i <= endPage; i++) {
         const pageButton = document.createElement("button");
         pageButton.className =
-          "border-cold-primary hover:bg-cold-primary/40 text-dark-text border-2 rounded-md py-2 px-4 mt-4";
+          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
 
         pageButton.textContent = i;
         if (i === currentPage) {
           pageButton.classList.add("active");
           pageButton.className =
-            "bg-cold-primary/20 border-cold-primary border-2 text-dark-text rounded-md py-2 px-4 mt-4";
+            "bg-accent-primary/50 border-accent-primary text-sm border-2 text-warm-text rounded-md py-1 px-2 mt-4";
         }
         pageButton.addEventListener("click", () =>
           updatePage(i, proxies, pagination)
@@ -553,7 +587,7 @@
       if (currentPage < totalPages) {
         const nextButton = document.createElement("button");
         nextButton.className =
-          "border-cold-primary hover:bg-cold-primary/40 text-dark-text border-2 rounded-md py-2 px-4 mt-4";
+          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
         nextButton.textContent = "Next";
         nextButton.addEventListener("click", () =>
           updatePage(currentPage + 1, proxies, pagination)
@@ -562,7 +596,7 @@
 
         const lastButton = document.createElement("button");
         lastButton.className =
-          "border-cold-primary hover:bg-cold-primary/40 text-dark-text border-2 rounded-md py-2 px-4 mt-4";
+          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
         lastButton.textContent = "Last >>";
         lastButton.addEventListener("click", () =>
           updatePage(totalPages, proxies, pagination)
