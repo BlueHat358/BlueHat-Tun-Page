@@ -204,18 +204,15 @@
             >
               <option value="">No Wildcard</option>
               <option value="ava.game.naver.com">ava.game.naver.com</option>
-              <option value="graph.instagram.com">graph.instagram.com</option>
               <option value="quiz.int.vidio.com">quiz.int.vidio.com</option>
               <option value="live.iflix.com.com">live.iflix.com</option>
               <option value="support.zoom.us">support.zoom.us</option>
-              <option value="blog.webex.com">blog.webex.com</option>
               <option value="investors.spotify.com">
                 investors.spotify.com
               </option>
               <option value="cache.netflix.com">cache.netflix.com</option>
               <option value="zaintest.vuclip.com">zaintest.vuclip.com</option>
               <option value="io.ruangguru.com">io.ruangguru.com</option>
-              <option value="api.midtrans.com">api.midtrans.com</option>
             </select>
           </td>
           <!-- Vless -->
@@ -337,7 +334,7 @@
             selectedService === workerUrl
               ? workerUrl
               : `${selectedService}.${workerUrl}`;
-          const VLESS1 = `vless://${uuid}@${workerUrl}:80?encryption=none&type=ws&host=${workerUrl}&path=%2F${ip}-${port}&security=none&sni=#(${selectedService})+${country}+${isp}`;
+          const VLESS1 = `vless://${uuid}@${selectedService}:80?encryption=none&type=ws&host=${workerUrl}&path=%2F${ip}-${port}&security=none&sni=#(${selectedService})+${country}+${isp}`;
           navigator.clipboard.writeText(VLESS1);
           Swal.fire({
             title: "Berhasil!",
@@ -398,7 +395,7 @@
                 ? workerUrl
                 : `${selectedService}.${workerUrl}`;
             const VLESS2 = `- name: (${selectedService})+${country}+${isp}
-      server: ${workerUrl}
+      server: ${selectedService}
       port: 80
       type: vless
       uuid: ${uuid}
