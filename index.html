@@ -542,7 +542,7 @@
       if (currentPage > 1) {
         const firstButton = document.createElement("button");
         firstButton.className =
-          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
+          "border-accent-primary  hover:bg-accent-primary/40 md:text-sm text-xs text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
         firstButton.textContent = "<< First";
         firstButton.addEventListener("click", () =>
           updatePage(1, proxies, pagination)
@@ -551,7 +551,7 @@
 
         const prevButton = document.createElement("button");
         prevButton.className =
-          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
+          "border-accent-primary  hover:bg-accent-primary/40 md:text-sm text-xs text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
         prevButton.textContent = "Previous";
         prevButton.addEventListener("click", () =>
           updatePage(currentPage - 1, proxies, pagination)
@@ -565,13 +565,13 @@
       for (let i = startPage; i <= endPage; i++) {
         const pageButton = document.createElement("button");
         pageButton.className =
-          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
+          "border-accent-primary  hover:bg-accent-primary/40 md:text-sm text-xs text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
 
         pageButton.textContent = i;
         if (i === currentPage) {
           pageButton.classList.add("active");
           pageButton.className =
-            "bg-accent-primary/50 border-accent-primary text-sm border-2 text-warm-text rounded-md py-1 px-2 mt-4";
+            "bg-accent-primary/50 border-accent-primary md:text-sm text-xs border-2 text-warm-text rounded-md py-1 px-2 mt-4";
         }
         pageButton.addEventListener("click", () =>
           updatePage(i, proxies, pagination)
@@ -582,7 +582,7 @@
       if (currentPage < totalPages) {
         const nextButton = document.createElement("button");
         nextButton.className =
-          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
+          "border-accent-primary  hover:bg-accent-primary/40 md:text-sm text-xs text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
         nextButton.textContent = "Next";
         nextButton.addEventListener("click", () =>
           updatePage(currentPage + 1, proxies, pagination)
@@ -591,7 +591,7 @@
 
         const lastButton = document.createElement("button");
         lastButton.className =
-          "border-accent-primary hover:bg-accent-primary/40 text-sm text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
+          "border-accent-primary hover:bg-accent-primary/40 md:text-sm text-xs text-accent-secondary border-2 rounded-md py-1 px-2 mt-4";
         lastButton.textContent = "Last >>";
         lastButton.addEventListener("click", () =>
           updatePage(totalPages, proxies, pagination)
