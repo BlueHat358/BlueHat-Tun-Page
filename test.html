@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fetching Data Animation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Animasi untuk list bergerak */
+      @keyframes scroll-list {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-100%);
+        }
+      }
+
+      /* Animasi rotasi handle lup */
+      @keyframes magnifier-handle {
+        0%,
+        100% {
+          transform: rotate(10deg);
+        }
+        50% {
+          transform: rotate(0deg);
+        }
+      }
+
+      /* Styling list kotak */
+      .list-container {
+        animation: scroll-list 5s linear infinite;
+      }
+
+      /* Efek transparan pada lup */
+      .glass-effect {
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+      }
+    </style>
+  </head>
+  <body ">
+    <!-- Container Utama -->
+    <div
+      class="relative flex items-center justify-center w-full max-w-md overflow-hidden"
+    >
+      <!-- Kotak List -->
+      <div class="relative w-full h-64 overflow-hidden">
+        <div class="list-container absolute w-full space-y-4">
+          <!-- Duplikasi kotak untuk loop -->
+          <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+            <div class="w-12 h-12 bg-gray-300 rounded-full"></div>
+            <div class="ml-4">
+              <div class="h-4 bg-gray-200 rounded w-32"></div>
+              <div class="h-4 bg-gray-200 rounded w-24 mt-2"></div>
+            </div>
+          </div>
+          <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+            <div class="w-12 h-12 bg-gray-300 rounded-full"></div>
+            <div class="ml-4">
+              <div class="h-4 bg-gray-200 rounded w-32"></div>
+              <div class="h-4 bg-gray-200 rounded w-24 mt-2"></div>
+            </div>
+          </div>
+          <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+            <div class="w-12 h-12 bg-gray-300 rounded-full"></div>
+            <div class="ml-4">
+              <div class="h-4 bg-gray-200 rounded w-32"></div>
+              <div class="h-4 bg-gray-200 rounded w-24 mt-2"></div>
+            </div>
+          </div>
+          <!-- Duplikat untuk seamless loop -->
+          <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+            <div class="w-12 h-12 bg-gray-300 rounded-full"></div>
+            <div class="ml-4">
+              <div class="h-4 bg-gray-200 rounded w-32"></div>
+              <div class="h-4 bg-gray-200 rounded w-24 mt-2"></div>
+            </div>
+          </div>
+          <div class="flex items-center p-4 bg-white rounded-lg shadow-md">
+            <div class="w-12 h-12 bg-gray-300 rounded-full"></div>
+            <div class="ml-4">
+              <div class="h-4 bg-gray-200 rounded w-32"></div>
+              <div class="h-4 bg-gray-200 rounded w-24 mt-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lup -->
+      <div
+        class="absolute flex items-center justify-center transform rotate-45"
+      >
+        <!-- Kaca Lingkaran -->
+        <div
+          class="glass-effect w-32 h-32 border-8 border-blue-500 rounded-full flex items-center justify-center"
+        >
+          <!-- Efek loading lingkaran -->
+          <div
+            class="w-24 h-24 border-4 border-t-blue-500 border-b-transparent rounded-full animate-spin"
+          ></div>
+        </div>
+        <!-- Handle Lup -->
+        <div
+          class="w-4 h-20 bg-blue-500 absolute top-[7.5rem] left-15 origin-top animate-[magnifier-handle_1s_ease-in-out_infinite] rounded-full"
+        ></div>
+      </div>
+    </div>
+  </body>
+</html>

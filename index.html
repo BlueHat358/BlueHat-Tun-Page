@@ -32,6 +32,39 @@
         },
       };
     </script>
+    <style>
+      /* Animasi untuk list bergerak */
+      @keyframes scroll-list {
+        0% {
+          transform: translateY(0);
+        }
+        100% {
+          transform: translateY(-100%);
+        }
+      }
+
+      /* Animasi rotasi handle lup */
+      @keyframes magnifier-handle {
+        0%,
+        100% {
+          transform: rotate(10deg);
+        }
+        50% {
+          transform: rotate(0deg);
+        }
+      }
+
+      /* Styling list kotak */
+      .list-container {
+        animation: scroll-list 5s linear infinite;
+      }
+
+      /* Efek transparan pada lup */
+      .glass-effect {
+        background-color: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+      }
+    </style>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"
@@ -127,6 +160,7 @@
               class="odd:bg-neutral-odd even:bg-neutral-even"
             ></tbody>
           </table>
+          <div id="fetch-div"></div>
         </div>
       </div>
       <div
@@ -182,6 +216,9 @@
         const [ip, port, country, isp] = proxy.split(",");
         const uuid = uuidv4();
         const nomor = proxies.indexOf(proxy) + 1;
+
+        const divFlag = document.createElement("div");
+
         const row = document.createElement("tr");
         row.className =
           "odd:bg-neutral-odd even:bg-neutral-even hover:bg-accent/50";
@@ -242,24 +279,24 @@
           <td class="px-4 py-2 border-b text-sm align-middle">
             <div class="flex gap-2 mb-3">
               <button
-                class="copy-vless bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+                class="copy-vless bg-accent-primary/70 hover:bg-accent-secondary/60 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
                 Vless 443
               </button>
               <button
-                class="copy-vless1 bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+                class="copy-vless1 bg-accent-primary/70 hover:bg-accent-secondary/60 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
                 Vless 80
               </button>
             </div>
             <div class="flex gap-2">
               <button
-                class="copy-vless-clash bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+                class="copy-vless-clash bg-accent-primary/70 hover:bg-accent-secondary/60 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
                 CLASH 443
               </button>
               <button
-                class="copy-vless-clash1 bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+                class="copy-vless-clash1 bg-accent-primary/70 hover:bg-accent-secondary/60 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
                 CLASH 80
               </button>
@@ -269,14 +306,14 @@
           <td class="px-4 py-2 border-b text-sm align-middle">
             <div class="flex gap-2 mb-3">
               <button
-                class="copy-trojan bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+                class="copy-trojan bg-accent-primary/70 hover:bg-accent-secondary/60 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
                 Trojan 443
               </button>
             </div>
             <div class="flex gap-2">
               <button
-                class="copy-trojan-clash bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+                class="copy-trojan-clash bg-accent-primary/70 hover:bg-accent-secondary/60 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
                 CLASH 443
               </button>
@@ -286,14 +323,14 @@
           <td class="px-4 py-2 border-b text-sm align-middle">
             <div class="flex gap-2 mb-3">
               <button
-                class="copy-shadowsock bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+                class="copy-shadowsock bg-accent-primary/70 hover:bg-accent-secondary/60 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
                 Shadowsock 443
               </button>
             </div>
             <div class="flex gap-2">
               <button
-                class="copy-shadowsock-clash bg-accent-primary hover:bg-accent-secondary/70 text-warm-text px-2 py-1 rounded text-xs w-full"
+                class="copy-shadowsock-clash bg-accent-primary/70 hover:bg-accent-secondary/60 text-warm-text px-2 py-1 rounded text-xs w-full"
               >
                 CLASH 443
               </button>
@@ -634,6 +671,16 @@
         renderProxies(filteredProxies, proxyList, pagination);
       });
 
+    // Display loading animation
+    let isLoading = true;
+    const loadingDiv = document.getElementById("fetch-div");
+    loadingDiv.className =
+      "relative flex items-center justify-center w-full max-w-md overflow-hidden justify-self-center mt-40";
+
+    if (isLoading) {
+      renderFetchDataAnimation(loadingDiv);
+    }
+
     // Fetching proxy data
     fetch(
       "https://raw.githubusercontent.com/BlueHat358/bluehat358-tunnel/refs/heads/main/proxy_list.txt"
@@ -645,27 +692,17 @@
         const proxyList = document.getElementById("proxy-list");
         const pagination = document.getElementById("pagination");
         renderProxies(filteredProxies, proxyList, pagination);
+
+        isLoading = false;
+        loadingDiv.remove();
       })
-      .catch((error) => console.error("Error fetching proxy data:", error)); // Correct placement here
+      .catch((error) => {
+        console.error("Error fetching proxy data:", error);
 
-    async function onRequest(context) {
-      const { request } = context;
-      const url = new URL(request.url);
-
-      const modifiedRequest = new Request(
-        "https://p01--boiling-frame--kw6dd7bjv2nr.code.run/check" + url.search,
-        {
-          method: request.method,
-          headers: request.headers,
-          body: request.body,
-        }
-      );
-
-      const response = await fetch(modifiedRequest);
-      const modifiedResponse = new Response(response.body, response);
-
-      return modifiedResponse;
-    }
+        loadingDiv.textContent = "Gagal memuat data. Silakan coba lagi.";
+        loadingDiv.className =
+          "absolute w-fit top-3/4 left-1/2 -translate-x-1/2 bg-red-500 px-4 py-2 rounded-lg shadow-lg text-red-200 font-bold text-lg";
+      }); // Correct placement here
 
     // Check Proxy isActive function
     async function isProxyActive(ip, port = "443", button, index) {
@@ -765,6 +802,72 @@
           confirmButtonColor: "#d33",
         });
       }
+    }
+
+    function renderFetchDataAnimation(element) {
+      element.innerHTML = `
+        <!-- Kotak List -->
+        <div class="relative w-full h-64 overflow-hidden">
+          <div class="list-container absolute w-full space-y-4">
+            <!-- Duplikasi kotak untuk loop -->
+            <div class="flex items-center p-4 bg-accent-primary/60 rounded-lg shadow-md">
+              <div class="w-12 h-12 bg-neutral-even/80 rounded-full"></div>
+              <div class="ml-4">
+                <div class="h-4 bg-neutral-even/50 rounded w-32"></div>
+                <div class="h-4 bg-neutral-even/50 rounded w-24 mt-2"></div>
+              </div>
+            </div>
+            <div class="flex items-center p-4 bg-accent-primary/60 rounded-lg shadow-md">
+              <div class="w-12 h-12 bg-neutral-even/80 rounded-full"></div>
+              <div class="ml-4">
+                <div class="h-4 bg-neutral-even/50 rounded w-32"></div>
+                <div class="h-4 bg-neutral-even/50 rounded w-24 mt-2"></div>
+              </div>
+            </div>
+            <div class="flex items-center p-4 bg-accent-primary/60 rounded-lg shadow-md">
+              <div class="w-12 h-12 bg-neutral-even/80 rounded-full"></div>
+              <div class="ml-4">
+                <div class="h-4 bg-neutral-even/50 rounded w-32"></div>
+                <div class="h-4 bg-neutral-even/50 rounded w-24 mt-2"></div>
+              </div>
+            </div>
+            <!-- Duplikat untuk seamless loop -->
+            <div class="flex items-center p-4 bg-accent-primary/60 rounded-lg shadow-md">
+              <div class="w-12 h-12 bg-neutral-even/80 rounded-full"></div>
+              <div class="ml-4">
+                <div class="h-4 bg-neutral-even/50 rounded w-32"></div>
+                <div class="h-4 bg-neutral-even/50 rounded w-24 mt-2"></div>
+              </div>
+            </div>
+            <div class="flex items-center p-4 bg-accent-primary/60 rounded-lg shadow-md">
+              <div class="w-12 h-12 bg-neutral-even/80 rounded-full"></div>
+              <div class="ml-4">
+                <div class="h-4 bg-neutral-even/50 rounded w-32"></div>
+                <div class="h-4 bg-neutral-even/50 rounded w-24 mt-2"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lup -->
+        <div
+          class="absolute flex items-center justify-center transform rotate-45"
+        >
+          <!-- Kaca Lingkaran -->
+          <div
+            class="glass-effect w-32 h-32 border-8 bg-transparent border-accent-secondary/70 rounded-full flex items-center justify-center"
+          >
+            <!-- Efek loading lingkaran -->
+            <div
+              class="w-24 h-24 border-4 border-t-accent-secondary/50 border-l-accent-secondary/20 border-r-accent-secondary/70 border-b-transparent rounded-full animate-spin"
+            ></div>
+          </div>
+          <!-- Handle Lup -->
+          <div
+            class="w-4 h-20 bg-accent-secondary/70 absolute top-[7.5rem] left-15 origin-top animate-[magnifier-handle_1s_ease-in-out_infinite] rounded-full"
+          ></div>
+        </div>
+      `;
     }
   </script>
 </html>
