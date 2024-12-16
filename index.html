@@ -98,6 +98,11 @@
                 <th
                   class="px-4 py-2 border-b text-accent-secondary font-semibold w-40"
                 >
+                  Active
+                </th>
+                <th
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40"
+                >
                   Wildcard
                 </th>
                 <th
@@ -114,11 +119,6 @@
                   class="px-4 py-2 border-b text-accent-secondary font-semibold w-50"
                 >
                   Shadowsock
-                </th>
-                <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40"
-                >
-                  Active
                 </th>
               </tr>
             </thead>
@@ -195,6 +195,29 @@
             <div class="flex items-center gap-1 justify-center">
               <span>${isp}</span> | <span>${country}</span>
               <span class="fi fi-${country.toLowerCase()}"></span>
+            </div>
+          </td>
+          <!-- Active -->
+          <td class="px-4 py-2 border-b text-sm align-middle">
+            <div class="flex justify-center">
+              <div>
+                <button
+                  id="btn_active"
+                  class="check_active bg-muted-bg hover:bg-muted-bg/40 text-accent-success px-2 py-1 rounded text-xs font-bold"
+                  onclick="isProxyActive('${ip}', '${port}', this, ${nomor})"
+                >
+                  Check
+                </button>
+                <div
+                  class="flex items-center mt-2 gap-1 hidden"
+                  lat-wrap-index="${nomor}"
+                >
+                  <span class="bg-yellow-500 h-3 w-3 rounded-full"></span>
+                  <span
+                    class="text-xs text-warm-text opacity-70 latency-cell"
+                  ></span>
+                </div>
+              </div>
             </div>
           </td>
           <!-- Wildcard -->
@@ -274,29 +297,6 @@
               >
                 CLASH 443
               </button>
-            </div>
-          </td>
-          <!-- Active -->
-          <td class="px-4 py-2 border-b text-sm align-middle">
-            <div class="flex justify-center">
-              <div>
-                <button
-                  id="btn_active"
-                  class="check_active bg-muted-bg hover:bg-muted-bg/40 text-accent-success px-2 py-1 rounded text-xs font-bold"
-                  onclick="isProxyActive('${ip}', '${port}', this, ${nomor})"
-                >
-                  Check
-                </button>
-                <div
-                  class="flex items-center mt-2 gap-1 hidden"
-                  lat-wrap-index="${nomor}"
-                >
-                  <span class="bg-yellow-500 h-3 w-3 rounded-full"></span>
-                  <span
-                    class="text-xs text-warm-text opacity-70 latency-cell"
-                  ></span>
-                </div>
-              </div>
             </div>
           </td>
         `;
