@@ -109,6 +109,11 @@
             </div>
           </div>
         </div>
+
+        <ul
+          class="flex justify-center gap-1 mt-8 flex-wrap"
+          id="country-list"
+        ></ul>
         <div class="overflow-x-auto">
           <table class="table-auto border-collapse w-full text-center mt-8">
             <thead>
@@ -168,7 +173,7 @@
         id="total-proxy"
       ></div>
       <div
-        class="pagination w-full flex justify-center gap-1.5 md:gap-3 mt-6 mb-32 text-accent-primary text-xs md:text-sm"
+        class="pagination w-full flex flex-wrap justify-center gap-1.5 md:gap-3 mt-6 mb-32 text-accent-primary text-xs md:text-sm"
         id="pagination"
       ></div>
     </main>
@@ -189,6 +194,7 @@
     let currentPage = 1;
     let filteredProxies = [];
     let allProxies = [];
+    let flags = [];
 
     const PROXY_HEALTH_CHECK_API = "https://api-proxy.bluehat358.us.kg";
 
@@ -216,8 +222,6 @@
         const [ip, port, country, isp] = proxy.split(",");
         const uuid = uuidv4();
         const nomor = proxies.indexOf(proxy) + 1;
-
-        const divFlag = document.createElement("div");
 
         const row = document.createElement("tr");
         row.className =
@@ -570,10 +574,9 @@
     }
 
     // Function to render pagination
-    // Function to render pagination
     function renderPagination(proxies, pagination) {
       const totalPages = Math.ceil(proxies.length / proxyPerPage);
-      const maxButtons = 4;
+      const maxButtons = 6;
       pagination.innerHTML = "";
 
       if (currentPage > 1) {
@@ -646,6 +649,16 @@
 
     // Function to filter proxies
     function filterProxies(searchTerm) {
+      const elementLi = document.getElementById("country-list");
+      const activeItems = document.querySelectorAll("#country-list li");
+      const elementSpan = elementLi.querySelector("span");
+
+      activeItems.forEach((li) => {
+        li.classList.remove("bg-accent-primary/80");
+        const span = li.querySelector("span");
+        if (span) span.classList.remove("opacity-60");
+      });
+
       searchTerm = searchTerm.toLowerCase();
       filteredProxies = allProxies.filter((proxy) =>
         proxy.toLowerCase().includes(searchTerm)
@@ -692,6 +705,7 @@
         const proxyList = document.getElementById("proxy-list");
         const pagination = document.getElementById("pagination");
         renderProxies(filteredProxies, proxyList, pagination);
+        renderFlags(filteredProxies);
 
         isLoading = false;
         loadingDiv.remove();
@@ -735,7 +749,6 @@
 
         // Parse JSON response
         const data = await response.json();
-        console.log(data);
 
         // Extract proxy status from response
         const isProxy = data.proxyip ? "Yes" : "No";
@@ -804,6 +817,67 @@
       }
     }
 
+    function renderFlags(proxies) {
+      const flagList = document.getElementById("country-list");
+
+      proxies.forEach((proxy) => {
+        const [ip, port, country, isp] = proxy.split(",");
+        if (!flags.includes(country.toLowerCase())) {
+          flags.push(country.toLowerCase()); // Menambahkan negara jika belum ada
+        }
+      });
+
+      flags.forEach((flag) => {
+        const flagElement = document.createElement("li");
+        flagElement.className =
+          "border-2 border-accent-primary w-12 h-12 px-1 rounded-md flex items-center hover:cursor-pointer hover:bg-accent-primary/80";
+        flagElement.setAttribute(
+          "onclick",
+          `filterByCountry('${flag}', this);`
+        );
+        flagElement.setAttribute("countryIdLi", `id-${flag.toUpperCase()}`);
+        flagElement.innerHTML = `<span class="fi fi-${flag} w-full h-full hover:opacity-60" countryIdSpan="id-${flag.toUpperCase()}"></span>`;
+        flagList.appendChild(flagElement);
+      });
+    }
+
+    // Function to filter proxies by country
+    function filterByCountry(countrySearch, elementLi) {
+      const searchInput = document.getElementById("search-bar");
+      const activeItems = document.querySelectorAll("#country-list li");
+      const elementSpan = elementLi.querySelector("span");
+      const isActive = elementLi.classList.contains("active");
+
+      searchInput.value = "";
+
+      if (isActive) {
+        elementLi.classList.remove("active", "bg-accent-primary/80");
+        elementSpan.classList.remove("active", "opacity-60");
+
+        filteredProxies = allProxies;
+      } else {
+        activeItems.forEach((li) => {
+          li.classList.remove("active", "bg-accent-primary/80");
+          const span = li.querySelector("span");
+          if (span) span.classList.remove("active", "opacity-60");
+        });
+
+        elementLi.classList.add("active", "bg-accent-primary/80");
+        elementSpan.classList.add("active", "opacity-60");
+
+        filteredProxies = allProxies.filter((proxy) => {
+          const [ip, port, country, isp] = proxy.split(",");
+          return country.toUpperCase() === countrySearch.toUpperCase();
+        });
+      }
+
+      currentPage = 1;
+      const proxyList = document.getElementById("proxy-list");
+      const pagination = document.getElementById("pagination");
+      renderProxies(filteredProxies, proxyList, pagination);
+    }
+
+    // Function to render loading animation
     function renderFetchDataAnimation(element) {
       element.innerHTML = `
         <!-- Kotak List -->
