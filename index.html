@@ -204,6 +204,7 @@
     const PROXY_HEALTH_CHECK_API = "https://api-proxy.bluehat358.biz.id";
 
     const workerUrl = "fennekin.bluehat358.biz.id";
+    const workerUrlVmess = "kirlia.bluehat358.biz.id";
 
     // Function to handle UUID generation
     function uuidv4() {
@@ -490,11 +491,11 @@
 
         row.querySelector(".copy-vmess").addEventListener("click", () => {
           const selectedService =
-            row.querySelector(".service-selector").value || workerUrl;
+            row.querySelector(".service-selector").value || workerUrlVmess;
           const domain =
-            selectedService === workerUrl
-              ? workerUrl
-              : `${selectedService}.${workerUrl}`;
+            selectedService === workerUrlVmess
+              ? workerUrlVmess
+              : `${selectedService}.${workerUrlVmess}`;
 
           const config = {
             ps: `(${selectedService})+${country}+${isp}`,
@@ -538,11 +539,11 @@
 
         row.querySelector(".copy-vmess1").addEventListener("click", () => {
           const selectedService =
-            row.querySelector(".service-selector").value || workerUrl;
+            row.querySelector(".service-selector").value || workerUrlVmess;
           const domain =
-            selectedService === workerUrl
-              ? workerUrl
-              : `${selectedService}.${workerUrl}`;
+            selectedService === workerUrlVmess
+              ? workerUrlVmess
+              : `${selectedService}.${workerUrlVmess}`;
 
           const config = {
             ps: `(${selectedService})+${country}+${isp}`,
