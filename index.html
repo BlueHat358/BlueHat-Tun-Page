@@ -489,6 +489,7 @@
           });
 
         row.querySelector(".copy-vmess").addEventListener("click", () => {
+          console.log("Copy Vmess 443 clicked");
           const selectedService =
             row.querySelector(".service-selector").value || workerUrl;
           const domain =
