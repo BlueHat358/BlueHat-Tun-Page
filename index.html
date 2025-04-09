@@ -597,11 +597,11 @@
 
         row.querySelector(".copy-vmess-clash").addEventListener("click", () => {
           const selectedService =
-            row.querySelector(".service-selector").value || workerUrl;
+            row.querySelector(".service-selector").value || workerUrlVmess;
           const domain =
-            selectedService === workerUrl
-              ? workerUrl
-              : `${selectedService}.${workerUrl}`;
+            selectedService === workerUrlVmess
+              ? workerUrlVmess
+              : `${selectedService}.${workerUrlVmess}`;
           const VMESSC = `- name: (${selectedService})+${country}+${isp}
   type: vmess
   server: ${selectedService}
@@ -637,11 +637,11 @@
           .querySelector(".copy-vmess-clash1")
           .addEventListener("click", () => {
             const selectedService =
-              row.querySelector(".service-selector").value || workerUrl;
+              row.querySelector(".service-selector").value || workerUrlVmess;
             const domain =
-              selectedService === workerUrl
-                ? workerUrl
-                : `${selectedService}.${workerUrl}`;
+              selectedService === workerUrlVmess
+                ? workerUrlVmess
+                : `${selectedService}.${workerUrlVmess}`;
             const VMESSC = `- name: (${selectedService})+${country}+${isp}
   type: vmess
   server: ${selectedService}
