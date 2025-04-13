@@ -204,7 +204,7 @@
     const PROXY_HEALTH_CHECK_API = "https://api-proxy.bluehat358.biz.id";
 
     const workerUrl = "fennekin.bluehat358.biz.id";
-    const workerUrlVmess = "kirlia.bluehat358.biz.id";
+    const workerUrlVmess = "gardevoir.bluehat358.biz.id";
 
     // Function to handle UUID generation
     function uuidv4() {
@@ -388,7 +388,7 @@
             selectedService === workerUrl
               ? workerUrl
               : `${selectedService}.${workerUrl}`;
-          const VLESS = `vless://${uuid}@${selectedService}:443?encryption=none&type=ws&host=${domain}&path=%2F${ip}-${port}&security=tls&sni=${domain}#(${selectedService})+${country}+${isp}`;
+          const VLESS = `vless://${uuid}@${selectedService}:443?encryption=none&type=ws&host=${domain}&path=%2F${ip}-${port}&security=tls&sni=${domain}#(${selectedService}) ${country} ${isp}`;
           navigator.clipboard.writeText(VLESS);
           Swal.fire({
             title: "Berhasil!",
@@ -410,7 +410,7 @@
             selectedService === workerUrl
               ? workerUrl
               : `${selectedService}.${workerUrl}`;
-          const VLESS1 = `vless://${uuid}@${selectedService}:80?encryption=none&type=ws&host=${workerUrl}&path=%2F${ip}-${port}&security=none&sni=#(${selectedService})+${country}+${isp}`;
+          const VLESS1 = `vless://${uuid}@${selectedService}:80?encryption=none&type=ws&host=${workerUrl}&path=%2F${ip}-${port}&security=none&sni=#(${selectedService}) ${country} ${isp}`;
           navigator.clipboard.writeText(VLESS1);
           Swal.fire({
             title: "Berhasil!",
@@ -432,7 +432,7 @@
             selectedService === workerUrl
               ? workerUrl
               : `${selectedService}.${workerUrl}`;
-          const VLESSC = `- name: (${selectedService})+${country}+${isp}
+          const VLESSC = `- name: (${selectedService}) ${country} ${isp}
   server: ${selectedService}
   port: 443
   type: vless
@@ -470,7 +470,7 @@
               selectedService === workerUrl
                 ? workerUrl
                 : `${selectedService}.${workerUrl}`;
-            const VLESS2 = `- name: (${selectedService})+${country}+${isp}
+            const VLESS2 = `- name: (${selectedService}) ${country} ${isp}
   server: ${selectedService}
   port: 80
   type: vless
@@ -508,11 +508,11 @@
               : `${selectedService}.${workerUrlVmess}`;
 
           const config = {
-            ps: `(${selectedService})+${country}+${isp}`,
+            ps: `(${selectedService}) ${country} ${isp}`,
             v: "2",
             add: domain,
             port: "443",
-            id: "f282b878-8711-45a1-8c69-5564172123c1",
+            id: "85dba49f-78a8-4050-a8f0-2185134fa358",
             aid: "0",
             scy: "zero",
             net: "ws",
@@ -556,11 +556,11 @@
               : `${selectedService}.${workerUrlVmess}`;
 
           const config = {
-            ps: `(${selectedService})+${country}+${isp}`,
+            ps: `(${selectedService}) ${country} ${isp}`,
             v: "2",
             add: domain,
             port: "80",
-            id: "f282b878-8711-45a1-8c69-5564172123c1",
+            id: "85dba49f-78a8-4050-a8f0-2185134fa358",
             aid: "0",
             scy: "zero",
             net: "ws",
@@ -602,11 +602,11 @@
             selectedService === workerUrlVmess
               ? workerUrlVmess
               : `${selectedService}.${workerUrlVmess}`;
-          const VMESSC = `- name: (${selectedService})+${country}+${isp}
+          const VMESSC = `- name: (${selectedService}) ${country} ${isp}
   type: vmess
   server: ${selectedService}
   port: 443
-  uuid: f282b878-8711-45a1-8c69-5564172123c1
+  uuid: 85dba49f-78a8-4050-a8f0-2185134fa358
   alterId: 0
   cipher: zero
   skip-cert-verify: true
@@ -642,11 +642,11 @@
               selectedService === workerUrlVmess
                 ? workerUrlVmess
                 : `${selectedService}.${workerUrlVmess}`;
-            const VMESSC = `- name: (${selectedService})+${country}+${isp}
+            const VMESSC = `- name: (${selectedService}) ${country} ${isp}
   type: vmess
   server: ${selectedService}
   port: 80
-  uuid: f282b878-8711-45a1-8c69-5564172123c1
+  uuid: 85dba49f-78a8-4050-a8f0-2185134fa358
   alterId: 0
   cipher: zero
   skip-cert-verify: true
@@ -680,7 +680,7 @@
             selectedService === workerUrl
               ? workerUrl
               : `${selectedService}.${workerUrl}`;
-          const TROJAN = `trojan://${uuid}@${selectedService}:443?encryption=none&type=ws&host=${domain}&path=%2F${ip}-${port}&security=tls&sni=${domain}#(${selectedService})+${country}+${isp}`;
+          const TROJAN = `trojan://${uuid}@${selectedService}:443?encryption=none&type=ws&host=${domain}&path=%2F${ip}-${port}&security=tls&sni=${domain}#(${selectedService}) ${country} ${isp}`;
           navigator.clipboard.writeText(TROJAN);
           Swal.fire({
             title: "Berhasil!",
@@ -704,7 +704,7 @@
               selectedService === workerUrl
                 ? workerUrl
                 : `${selectedService}.${workerUrl}`;
-            const TROJANC = `- name: (${selectedService})+${country}+${isp}
+            const TROJANC = `- name: (${selectedService}) ${country} ${isp}
   server: ${selectedService}
   port: 443
   type: trojan
@@ -738,7 +738,7 @@
             selectedService === workerUrl
               ? workerUrl
               : `${selectedService}.${workerUrl}`;
-          const SS = `ss://bm9uZTo1ZDJlYmQyYS05Y2I5LTRkMWItYWY1NS04NjE3ZDNlODFmMzk%3D@${selectedService}:443?encryption=none&type=ws&host=${domain}&path=%2F${ip}-${port}&security=tls&sni=${domain}#(${selectedService})+${country}+${isp}`;
+          const SS = `ss://bm9uZTo1ZDJlYmQyYS05Y2I5LTRkMWItYWY1NS04NjE3ZDNlODFmMzk%3D@${selectedService}:443?encryption=none&type=ws&host=${domain}&path=%2F${ip}-${port}&security=tls&sni=${domain}#(${selectedService}) ${country} ${isp}`;
           navigator.clipboard.writeText(SS);
           Swal.fire({
             title: "Berhasil!",
