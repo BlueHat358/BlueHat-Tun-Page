@@ -988,14 +988,14 @@
     //   }); // Correct placement here
 
     // Fetching proxy data
-    // let isLoading = true;
-    // const loadingDiv = document.getElementById("fetch-div");
-    // loadingDiv.className =
-    //   "relative flex items-center justify-center w-full max-w-md overflow-hidden justify-self-center mt-40";
+    let isLoading = true;
+    const loadingDiv = document.getElementById("fetch-div");
+    loadingDiv.className =
+      "relative flex items-center justify-center w-full max-w-md overflow-hidden justify-self-center mt-40";
 
-    // if (isLoading) {
-    //   renderFetchDataAnimation(loadingDiv);
-    // }
+    if (isLoading) {
+      renderFetchDataAnimation(loadingDiv);
+    }
 
     // async function fetchData() {
     //   try {
@@ -1041,35 +1041,44 @@
     //   }
     // }
 
+    // Fungsi untuk memeriksa status koneksi internet
+    function isOnline() {
+      return navigator.onLine;
+    }
+
     async function fetchData() {
       try {
+        let proxies = [];
         if (navigator.onLine) {
           // Jika online, ambil data dari server
           const response = await fetch(
             "https://raw.githubusercontent.com/BlueHat358/bluehat358-tunnel/refs/heads/main/proxy_list_active.txt"
           );
 
-          // Pastikan respons berhasil sebelum diproses
           if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);
           }
 
           const data = await response.text();
-          const proxies = data.split("\n").filter((line) => line.trim() !== "");
+          proxies = data.split("\n").filter((line) => line.trim() !== "");
 
           // Simpan data terbaru ke IndexedDB
           saveProxiesToIndexedDB(proxies);
-
-          return proxies;
         } else {
           // Jika offline, ambil data dari IndexedDB
-          const cachedProxies = await getProxiesFromIndexedDB();
-          if (cachedProxies && cachedProxies.length > 0) {
-            return cachedProxies;
-          } else {
+          proxies = await getProxiesFromIndexedDB();
+          if (!proxies || proxies.length === 0) {
             throw new Error("No cached data available.");
           }
         }
+
+        // Render data ke tabel
+        const proxyList = document.getElementById("proxy-list");
+        const pagination = document.getElementById("pagination");
+        renderProxies(proxies, proxyList, pagination);
+        renderFlags(proxies);
+
+        return proxies;
       } catch (error) {
         console.error("Error fetching proxy data:", error);
 
@@ -1093,37 +1102,6 @@
       renderProxies(filteredProxies, proxyList, pagination);
       renderFlags(filteredProxies);
     });
-
-    // Fungsi untuk memeriksa status koneksi internet
-    function isOnline() {
-      return navigator.onLine;
-    }
-
-    // Fungsi untuk memperbarui cache saat online
-    async function updateCacheIfOnline() {
-      if (isOnline()) {
-        try {
-          const response = await fetch(
-            "https://raw.githubusercontent.com/BlueHat358/bluehat358-tunnel/refs/heads/main/proxy_list_active.txt"
-          );
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const data = await response.text();
-          const proxies = data.split("\n").filter((line) => line.trim() !== "");
-
-          // Simpan data terbaru ke IndexedDB
-          saveProxiesToIndexedDB(proxies);
-          console.log("Cache updated with latest data.");
-        } catch (error) {
-          console.error("Error updating cache:", error);
-        }
-      } else {
-        console.log("Offline mode. Cache not updated.");
-      }
-    }
 
     // Jalankan update cache saat halaman dimuat
     window.addEventListener("load", () => {
