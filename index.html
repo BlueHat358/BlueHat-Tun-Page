@@ -988,14 +988,58 @@
     //   }); // Correct placement here
 
     // Fetching proxy data
-    let isLoading = true;
-    const loadingDiv = document.getElementById("fetch-div");
-    loadingDiv.className =
-      "relative flex items-center justify-center w-full max-w-md overflow-hidden justify-self-center mt-40";
+    // let isLoading = true;
+    // const loadingDiv = document.getElementById("fetch-div");
+    // loadingDiv.className =
+    //   "relative flex items-center justify-center w-full max-w-md overflow-hidden justify-self-center mt-40";
 
-    if (isLoading) {
-      renderFetchDataAnimation(loadingDiv);
-    }
+    // if (isLoading) {
+    //   renderFetchDataAnimation(loadingDiv);
+    // }
+
+    // async function fetchData() {
+    //   try {
+    //     if (navigator.onLine) {
+    //       // Jika online, ambil data dari server
+    //       const response = await fetch(
+    //         "https://raw.githubusercontent.com/BlueHat358/bluehat358-tunnel/refs/heads/main/proxy_list_active.txt"
+    //       );
+
+    //       // Pastikan respons berhasil sebelum diproses
+    //       if (!response.ok) {
+    //         throw new Error(`HTTP error! Status: ${response.status}`);
+    //       }
+
+    //       const data = await response.text();
+    //       const proxies = data.split("\n").filter((line) => line.trim() !== "");
+
+    //       // Simpan data terbaru ke IndexedDB
+    //       saveProxiesToIndexedDB(proxies);
+
+    //       return proxies;
+    //     } else {
+    //       // Jika offline, ambil data dari IndexedDB
+    //       const cachedProxies = await getProxiesFromIndexedDB();
+    //       if (cachedProxies && cachedProxies.length > 0) {
+    //         return cachedProxies;
+    //       } else {
+    //         throw new Error("No cached data available.");
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching proxy data:", error);
+
+    //     // Tampilkan pesan kesalahan kepada pengguna
+    //     loadingDiv.textContent = "Gagal memuat data. Silakan coba lagi.";
+    //     loadingDiv.className =
+    //       "absolute w-fit top-3/4 left-1/2 -translate-x-1/2 bg-red-500 px-4 py-2 rounded-lg shadow-lg text-red-200 font-bold text-lg";
+
+    //     return [];
+    //   } finally {
+    //     isLoading = false;
+    //     loadingDiv.remove();
+    //   }
+    // }
 
     async function fetchData() {
       try {
@@ -1050,39 +1094,184 @@
       renderFlags(filteredProxies);
     });
 
+    // Fungsi untuk memeriksa status koneksi internet
+    function isOnline() {
+      return navigator.onLine;
+    }
+
+    // Fungsi untuk memperbarui cache saat online
+    async function updateCacheIfOnline() {
+      if (isOnline()) {
+        try {
+          const response = await fetch(
+            "https://raw.githubusercontent.com/BlueHat358/bluehat358-tunnel/refs/heads/main/proxy_list_active.txt"
+          );
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const data = await response.text();
+          const proxies = data.split("\n").filter((line) => line.trim() !== "");
+
+          // Simpan data terbaru ke IndexedDB
+          saveProxiesToIndexedDB(proxies);
+          console.log("Cache updated with latest data.");
+        } catch (error) {
+          console.error("Error updating cache:", error);
+        }
+      } else {
+        console.log("Offline mode. Cache not updated.");
+      }
+    }
+
+    // Jalankan update cache saat halaman dimuat
+    window.addEventListener("load", () => {
+      updateCacheIfOnline();
+    });
+
     // Check Proxy isActive function
+    // async function isProxyActive(ip, port = "443", button, index) {
+    //   const latencyCell = button.parentElement.querySelector(".latency-cell"); // Find the latency span in the same cell
+    //   let latencyWrapper = document.querySelector(
+    //     `[lat-wrap-index="${index}"]`
+    //   );
+    //   const host = "speed.cloudflare.com";
+    //   const tls = "true";
+    //   let endTime = 0;
+    //   let latency = 0; // Calculate latency
+    //   let url = `${PROXY_HEALTH_CHECK_API}?ip=${ip}&port=${port}&host=${host}&tls=${tls}`;
+
+    //   button.textContent = "Checking...";
+
+    //   let startTime = performance.now();
+    //   try {
+    //     const response = await fetch(url, { method: "GET" }).then(
+    //       (response) => {
+    //         endTime = performance.now();
+    //         latency = (endTime - startTime).toFixed(2); // Calculate latency
+    //         return response;
+    //       }
+    //     );
+
+    //     // Explicitly check if HTTP response is not OK
+    //     if (!response.ok) {
+    //       throw new Error(`HTTP error! status: ${response.status}`);
+    //     }
+
+    //     // Parse JSON response
+    //     const data = await response.json();
+
+    //     // Extract proxy status from response
+    //     const isProxy = data.proxyip ? "Yes" : "No";
+
+    //     if (isProxy === "Yes") {
+    //       latencyWrapper.classList.remove("hidden");
+    //       button.textContent = "ACTIVE";
+    //       button.style.backgroundColor = "green";
+    //       button.style.color = "cyan";
+    //       latencyCell.textContent = `${latency} ms`;
+
+    //       // Display success popup
+    //       Swal.fire({
+    //         title: "Proxy Status: ACTIVE",
+    //         text: `${latency} ms.`,
+    //         icon: "success",
+    //         background: "rgba(6, 18, 67, 0.89)",
+    //         color: "cyan",
+    //         customClass: {
+    //           popup: "rounded-popup",
+    //         },
+    //         confirmButtonColor: "#3085d6",
+    //       });
+    //     } else {
+    //       button.textContent = "DEAD";
+    //       button.style.backgroundColor = "red";
+    //       button.style.color = "cyan";
+    //       latencyCell.textContent = "";
+
+    //       // Display error popup
+    //       Swal.fire({
+    //         title: "Proxy Status: DEAD",
+    //         text: "Proxy is not active.",
+    //         icon: "error",
+    //         background: "rgba(6, 18, 67, 0.89)",
+    //         color: "white",
+    //         customClass: {
+    //           popup: "rounded-popup",
+    //         },
+    //         confirmButtonColor: "#d33",
+    //       });
+    //     }
+    //   } catch (error) {
+    //     console.error("Error:", error);
+
+    //     endTime = performance.now();
+    //     latency = (endTime - startTime).toFixed(2); // Calculate latency even in error case
+
+    //     button.textContent = "DEAD";
+    //     button.style.backgroundColor = "red";
+    //     button.style.color = "cyan";
+    //     latencyCell.textContent = ""; // Clear latency cell text on failure
+
+    //     // Display error popup
+    //     Swal.fire({
+    //       title: "Proxy Status: DEAD",
+    //       text: `Error: ${error.message}`,
+    //       icon: "error",
+    //       background: "rgba(6, 18, 67, 0.89)",
+    //       color: "white",
+    //       customClass: {
+    //         popup: "rounded-popup",
+    //       },
+    //       confirmButtonColor: "#d33",
+    //     });
+    //   }
+    // }
+
     async function isProxyActive(ip, port = "443", button, index) {
-      const latencyCell = button.parentElement.querySelector(".latency-cell"); // Find the latency span in the same cell
+      if (!navigator.onLine) {
+        Swal.fire({
+          title: "Offline Mode",
+          text: "Tidak dapat memeriksa status proxy saat offline.",
+          icon: "warning",
+          background: "rgba(6, 18, 67, 0.89)",
+          color: "white",
+          customClass: {
+            popup: "rounded-popup",
+          },
+          confirmButtonColor: "#f39c12",
+        });
+        return;
+      }
+
+      const latencyCell = button.parentElement.querySelector(".latency-cell");
       let latencyWrapper = document.querySelector(
         `[lat-wrap-index="${index}"]`
       );
       const host = "speed.cloudflare.com";
       const tls = "true";
       let endTime = 0;
-      let latency = 0; // Calculate latency
+      let latency = 0;
+
       let url = `${PROXY_HEALTH_CHECK_API}?ip=${ip}&port=${port}&host=${host}&tls=${tls}`;
-
       button.textContent = "Checking...";
-
       let startTime = performance.now();
+
       try {
         const response = await fetch(url, { method: "GET" }).then(
           (response) => {
             endTime = performance.now();
-            latency = (endTime - startTime).toFixed(2); // Calculate latency
+            latency = (endTime - startTime).toFixed(2);
             return response;
           }
         );
 
-        // Explicitly check if HTTP response is not OK
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Parse JSON response
         const data = await response.json();
-
-        // Extract proxy status from response
         const isProxy = data.proxyip ? "Yes" : "No";
 
         if (isProxy === "Yes") {
@@ -1092,7 +1281,6 @@
           button.style.color = "cyan";
           latencyCell.textContent = `${latency} ms`;
 
-          // Display success popup
           Swal.fire({
             title: "Proxy Status: ACTIVE",
             text: `${latency} ms.`,
@@ -1110,7 +1298,6 @@
           button.style.color = "cyan";
           latencyCell.textContent = "";
 
-          // Display error popup
           Swal.fire({
             title: "Proxy Status: DEAD",
             text: "Proxy is not active.",
@@ -1125,16 +1312,14 @@
         }
       } catch (error) {
         console.error("Error:", error);
-
         endTime = performance.now();
-        latency = (endTime - startTime).toFixed(2); // Calculate latency even in error case
+        latency = (endTime - startTime).toFixed(2);
 
         button.textContent = "DEAD";
         button.style.backgroundColor = "red";
         button.style.color = "cyan";
-        latencyCell.textContent = ""; // Clear latency cell text on failure
+        latencyCell.textContent = "";
 
-        // Display error popup
         Swal.fire({
           title: "Proxy Status: DEAD",
           text: `Error: ${error.message}`,
