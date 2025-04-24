@@ -1,0 +1,28 @@
+# Ignor file Node.js
+node_modules/
+package-lock.json
+
+# Ignor file Tailwind CSS sementara
+temp_style.css
+
+# Ignor file build yang bisa dibuat ulang
+dist/
+
+# Ignor file log dan cache
+npm-debug.log
+*.log
+.cache/
+
+# Ignor file sistem operasi
+.DS_Store
+Thumbs.db
+
+# Ignor file editor/IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignor file env (jika ada)
+.env
+.env.local
