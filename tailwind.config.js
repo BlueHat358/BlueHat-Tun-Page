@@ -28,6 +28,14 @@ export default {
           bg: "#1C1B17", // Background utama
           text: "#F5F3F0", // Teks utama
         },
+        dark: {
+          bg: "#0D1117", // Background
+          text: "#E5E5E5", // Teks utama
+        },
+        cold: {
+          primary: "#3B82F6", // Biru (Primary)
+          accent: "#38BDF8", // Cyan (Accent)
+        },
         accent: {
           primary: "#E63946", // Merah (Aksi penting)
           secondary: "#FFC857", // Emas (Sorotan/Tombol info)

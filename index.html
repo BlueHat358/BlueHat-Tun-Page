@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./style.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
     <!-- <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -74,7 +74,7 @@
 
   <body class="bg-warm-bg text-warm-text">
     <header class="mt-8">
-      <h1 class="font-bold text-4xl text-center text-blue-500">
+      <h1 class="font-bold text-4xl text-center text-accent-secondary">
         Welcome to the Proxy List
       </h1>
       <h5 class="text-center text-2xl mt-3 text-accent-secondary/80">
@@ -120,47 +120,47 @@
             <thead>
               <tr>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-12"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-12!"
                 >
                   No
                 </th>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60!"
                 >
                   IP:Port
                 </th>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60!"
                 >
                   ISP | Country
                 </th>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40!"
                 >
                   Active
                 </th>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40!"
                 >
                   Wildcard
                 </th>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-60!"
                 >
                   Vless
                 </th>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-50!"
                 >
                   Vmess
                 </th>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-50"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40!"
                 >
                   Trojan
                 </th>
                 <th
-                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-50"
+                  class="px-4 py-2 border-b text-accent-secondary font-semibold w-40!"
                 >
                   Shadowsock
                 </th>
@@ -1004,14 +1004,23 @@
           const response = await fetch(
             "https://raw.githubusercontent.com/BlueHat358/bluehat358-tunnel/refs/heads/main/proxy_list_active.txt"
           );
+
+          // Pastikan respons berhasil sebelum diproses
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
           const data = await response.text();
           const proxies = data.split("\n").filter((line) => line.trim() !== "");
-          saveProxiesToIndexedDB(proxies); // Simpan ke IndexedDB
+
+          // Simpan data terbaru ke IndexedDB
+          saveProxiesToIndexedDB(proxies);
+
           return proxies;
         } else {
           // Jika offline, ambil data dari IndexedDB
           const cachedProxies = await getProxiesFromIndexedDB();
-          if (cachedProxies) {
+          if (cachedProxies && cachedProxies.length > 0) {
             return cachedProxies;
           } else {
             throw new Error("No cached data available.");
@@ -1019,9 +1028,12 @@
         }
       } catch (error) {
         console.error("Error fetching proxy data:", error);
+
+        // Tampilkan pesan kesalahan kepada pengguna
         loadingDiv.textContent = "Gagal memuat data. Silakan coba lagi.";
         loadingDiv.className =
           "absolute w-fit top-3/4 left-1/2 -translate-x-1/2 bg-red-500 px-4 py-2 rounded-lg shadow-lg text-red-200 font-bold text-lg";
+
         return [];
       } finally {
         isLoading = false;
@@ -1156,7 +1168,7 @@
           `filterByCountry('${flag}', this);`
         );
         flagElement.setAttribute("countryIdLi", `id-${flag.toUpperCase()}`);
-        flagElement.innerHTML = `<span class="fi fi-${flag} w-full h-full hover:opacity-60" countryIdSpan="id-${flag.toUpperCase()}"></span>`;
+        flagElement.innerHTML = `<span class="fi fi-${flag} w-full! h-full hover:opacity-60" countryIdSpan="id-${flag.toUpperCase()}"></span>`;
         flagList.appendChild(flagElement);
       });
     }
